@@ -1,0 +1,11 @@
+pandas
+numpy 
+fastapi
+flask 
+scikit-learn
+matplotlib
+nltk
+gensim
+mlflow
+xgboost
+-e .
