@@ -1,0 +1,15 @@
+# This file consist of the downloading the data and stroing in the specific 
+# path for fetching dynamically
+
+# sourece Url - we can change by just replacing it with our dataset download link 
+
+artifacts_root: artifacts
+# test
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  source_URL: https://drive.google.com/file/d/1RpSMHhd_AJHOHYZHeq_mskJwRLj4YbP3/view?usp=sharing
+  local_data_file: artifacts/data_ingestion/data.zip
+  unzip_dir: artifacts/data_ingestion
+
+
