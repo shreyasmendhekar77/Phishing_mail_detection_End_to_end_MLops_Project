@@ -13,3 +13,13 @@ data_ingestion:
   unzip_dir: artifacts/data_ingestion
 
 
+data_preprocessing:
+  root_dir: artifacts/data_preprocessed
+  cleaned_data: artifacts/data_preprocessed/cleaned_data.csv
+  vectorized_data: artifacts/data_preprocessed/vectorized_data.csv
+  unzip_data_dir: artifacts/data_ingestion/Phishing_Email.csv
+  vector_embed_model: artifacts/data_preprocessed/word_vec_model.pkl
+
+
+
+

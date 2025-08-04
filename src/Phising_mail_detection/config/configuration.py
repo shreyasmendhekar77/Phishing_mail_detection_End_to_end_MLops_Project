@@ -9,7 +9,7 @@ class DataIngestionConfig:
     unzip_dir: Path
 
 @dataclass(frozen='True')
-class Data_preprocessing:
-    root_dir:Path
-
-
+class Data_preprocessing_config:
+    root_dir: Path
+    unzip_data_dir: Path
+    vector_embed_model: Path

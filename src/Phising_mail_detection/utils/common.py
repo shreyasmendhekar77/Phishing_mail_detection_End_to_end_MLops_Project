@@ -8,6 +8,25 @@ from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
 from typing import Any
+import pickle
+
+
+
+# @ensure_annotations
+def load_model(path:Path):
+
+    with open(path,'rb') as file:
+        model=pickle.load(file)
+    
+    return model
+
+def save_model(model, path):
+    """Save a model to a file using pickle"""
+    try:
+        with open(path, 'wb') as f:
+            pickle.dump(model, f)
+    except Exception as e:
+        raise e
 
 
 @ensure_annotations
