@@ -21,5 +21,9 @@ data_preprocessing:
   vector_embed_model: artifacts/data_preprocessed/word_vec_model.pkl
 
 
+Model_training:
+  root_dir: artifacts/model_training
+  training_data_path: artifacts/data_preprocessed/vectorized_data.csv
+  trained_model_dir: artifacts/model_training/trained_model.pkl
 
 
