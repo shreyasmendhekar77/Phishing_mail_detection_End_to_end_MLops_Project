@@ -1,6 +1,8 @@
 
-learning_rate: 0.1
-max_depth : 7
-model_name : lightgbm
-num_leaves: 31
-n_estimators : 200
+model params:
+  learning_rate: 0.1
+  max_depth : 7
+  model_name : lightgbm
+  num_leaves: 31
+  n_estimators : 200
+
