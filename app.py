@@ -6,6 +6,7 @@ from Phising_mail_detection.utils.common import load_model
 from preprocessor import clean, get_email_vector
 from prediction_function import prediction
 from fastapi import FastAPI
+from main import model_retrain_pipeline
 
 # ------------------- FastAPI Setup -------------------
 app = FastAPI()
@@ -22,6 +23,19 @@ def health():
         'Model version': Model_version,
     }
 
+# model retraining function 
+@app.post('/retrain')
+def retrain(data: str)->str:
+
+    if data=='retrain':
+        obj=model_retrain_pipeline()
+        obj.complete_pipeline()
+        return "Model Training_completed"
+    
+    else:
+        return "Please write retrain to retrain the model"
+
+
 @app.post('/textdata')
 def text_data(data: str) -> dict:
     ans = clean(data)
@@ -33,37 +47,37 @@ def text_data(data: str) -> dict:
 
 # # ------------------- Streamlit UI -------------------
 
-st.set_page_config(page_title="Phishing Detector", page_icon="📧", layout="centered")
-st.title("📧 Phishing Mail Detection")
-st.markdown("Enter the content of the email below to check whether it's **phishing** or **legitimate**.")
+# st.set_page_config(page_title="Phishing Detector", page_icon="📧", layout="centered")
+# st.title("📧 Phishing Mail Detection")
+# st.markdown("Enter the content of the email below to check whether it's **phishing** or **legitimate**.")
 
-# Input area
-with st.form("email_form"):
-    data = st.text_area("✍️ Enter email content here", height=200)
-    submitted = st.form_submit_button("🚀 Analyze")
+# # Input area
+# with st.form("email_form"):
+#     data = st.text_area("✍️ Enter email content here", height=200)
+#     submitted = st.form_submit_button("🚀 Analyze")
 
-    if submitted:
-        if not data.strip():
-            st.warning("Please enter some email content before submitting.")
-        else:
-            with st.spinner("Analyzing..."):
-                try:
-                    ans = clean(data)
-                    vec_model = load_model('artifacts\data_preprocessed\word_vec_model.pkl')
-                    vector = get_email_vector(ans, vec_model)
-                    out = prediction(vector)
-                    # st.info(out)
-                    # st.info(out['prediction'])
-                    st.success("Analysis Complete!")
-                    if out['prediction'] == "Phishing mail":
-                        st.error("⚠️ This email is likely a **PHISHING** attempt.")
-                    else:
-                        st.info("✅ This email appears to be **normal**.")
+#     if submitted:
+#         if not data.strip():
+#             st.warning("Please enter some email content before submitting.")
+#         else:
+#             with st.spinner("Analyzing..."):
+#                 try:
+#                     ans = clean(data)
+#                     vec_model = load_model('artifacts\data_preprocessed\word_vec_model.pkl')
+#                     vector = get_email_vector(ans, vec_model)
+#                     out = prediction(vector)
+#                     # st.info(out)
+#                     # st.info(out['prediction'])
+#                     st.success("Analysis Complete!")
+#                     if out['prediction'] == "Phishing mail":
+#                         st.error("⚠️ This email is likely a **PHISHING** attempt.")
+#                     else:
+#                         st.info("✅ This email appears to be **normal**.")
                     
-                    st.write("Confidence is: ",out['probabilities'])
-                except Exception as e:
-                    st.error(f"❌ Error during prediction: {e}")
+#                     st.write("Confidence is: ",out['probabilities'])
+#                 except Exception as e:
+#                     st.error(f"❌ Error during prediction: {e}")
 
-# Optional: Footer
-st.markdown("---")
-st.caption("Model Version: `1.0.0` • Built with Streamlit & FastAPI")
+# # Optional: Footer
+# st.markdown("---")
+# st.caption("Model Version: `1.0.0` • Built with Streamlit & FastAPI")
