@@ -1,0 +1,26 @@
+stages:
+  data ingestion:
+    cmd: python src\Phising_mail_detection\pipeline\data_ingestion_pipeline.py
+    deps:
+     - config\config.yaml
+     - src\Phising_mail_detection\pipeline\data_ingestion_pipeline.py
+    outs:
+     - artifacts\data_ingestion\Phishing_Email.csv
+  
+  data preprocessing:
+    cmd: python src\Phising_mail_detection\pipeline\data_preprocessing_pipeline.py
+    deps:
+     - config\config.yaml
+     - src\Phising_mail_detection\pipeline\data_preprocessing_pipeline.py
+    outs:
+     - artifacts\data_preprocessed\vectorized_data.csv
+     - artifacts\data_preprocessed\word_vec_model.pkl
+  
+  model training:
+    cmd: python src\Phising_mail_detection\pipeline\model_training_pipeline.py
+    deps:
+     - config\config.yaml
+     - src\Phising_mail_detection\pipeline\model_training_pipeline.py
+    outs:
+     - artifacts\model_training\trained_model.pkl
+     

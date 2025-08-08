@@ -35,7 +35,6 @@ class Data_preprocessing_Validation:
 
     def clean_and_Vector_embed(self):
         data=pd.read_csv(self.config.unzip_data_dir)
-        data['Email Text'].fillna('',inplace=True)
         # print(data.isna().sum())
         # print("First row",data['Email Text'][0])
         # sample=data['Email Text'][0]
@@ -46,7 +45,13 @@ class Data_preprocessing_Validation:
         #     data = pd.read_csv(self.config.cleaned_data)
         # else:
         #     logger.info("Cleaned data file not exists")
-        data['Email Type'].replace({'Safe Email':0,'Phishing Email':1},inplace=True)
+        data['Email Text'] = data['Email Text'].fillna('')
+        data['Email Type'] = (
+            data['Email Type']
+            .replace({'Safe Email': 0, 'Phishing Email': 1})
+            .infer_objects(copy=False)
+        )
+
         data['tokens'] = data['Email Text'].apply(self.clean)
         # data.to_csv(self.config.cleaned_data, index=False)
         print(data['tokens'].iloc[0])  # Show the first cleaned email text

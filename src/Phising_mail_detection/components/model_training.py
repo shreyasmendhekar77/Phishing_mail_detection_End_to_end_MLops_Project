@@ -7,7 +7,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix,classification_report
 from lightgbm import LGBMClassifier
 from Phising_mail_detection.config.configuration import ModelTrainingConfig
+import mlflow
 
+
+mlflow.set_experiment('Pipeline Experimentation Trackings')
+mlflow.set_registry_uri('http://127.0.0.1:5000/')
 
 class Model_training_function:
     def __init__(self, config: ModelTrainingConfig):
@@ -52,10 +56,16 @@ class Model_training_function:
         logger.info("Model evaluation on training data")
         y_train_pred = model.predict(X_train)
         train_accuracy = accuracy_score(y_train, y_train_pred)
-        train_classification_rep = classification_report(y_train, y_train_pred)
+        train_classification_rep = classification_report(y_train, y_train_pred,output_dict=True)
+        mlflow.log_metrics({
+        'accuracy': train_classification_rep['accuracy'],
+        'recall_class_0': train_classification_rep['0']['recall'],
+        'recall_class_1': train_classification_rep['1']['recall'],
+        'f1_score_macro': train_classification_rep['macro avg']['f1-score']
+         })
         print(f"Training Accuracy: {train_accuracy}")
-        print("Training Classification Report:")
-        print(train_classification_rep)
+        # print("Training Classification Report:")
+        # print(train_classification_rep)
         logger.info("Evaluating the model")
         y_pred = model.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)

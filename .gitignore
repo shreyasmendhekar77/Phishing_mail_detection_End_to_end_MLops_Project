@@ -4,11 +4,14 @@ template
 test
 mlruns
 artifacts
+research
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
 *$py.class
-
+.dvc
+dvc
+dvc.lock
 # C extensions
 *.so
 
